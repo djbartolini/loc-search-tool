@@ -1,18 +1,30 @@
 var searchBtn = document.querySelector(".searchBtn");
 var userSearch = document.getElementById("user-search");
+var formatEl = document.getElementById("format");
+
 
 var displaySearch = function(event) {
     event.preventDefault();
     var searchTerm = userSearch.value.trim();
+    var formatChoice = formatEl.value;
+    if (!document.location.href.includes('search-results')) {
+    document.location.replace('./search-results.html');
+    }
+    
+    console.log(formatChoice);
 
-    console.log(searchTerm);
+    if (formatChoice === 'none') {
+        getAllLocData();
+    } else {
+        getLocData();
+    }
 }
 
 
 
 var getLocData = function(format, q) {
     var formatUrl = 'https://www.loc.gov/' + format + '/?q=' + q + '&fo=json';
-    fetch(apiUrl)
+    fetch(formatUrl)
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
@@ -44,4 +56,4 @@ var getAllLocData = function(q) {
     });
 }
 
-searchBtn.addEventListener('click', displaySearch());
+searchBtn.addEventListener('click', displaySearch);
